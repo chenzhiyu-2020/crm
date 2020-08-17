@@ -9,7 +9,7 @@ import java.util.Map;
  * @author 北京动力节点
  */
 public interface ActivityDao {
-    int save(Activity a);
+    int save(Activity activity);
 
     List<Activity> getActivityListByCondition(Map<String, Object> map);
 

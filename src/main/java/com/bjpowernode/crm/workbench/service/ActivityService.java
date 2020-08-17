@@ -11,7 +11,7 @@ import java.util.Map;
  * @author 北京动力节点
  */
 public interface ActivityService {
-    boolean save(Activity a);
+    boolean save(Activity activity);
 
     PaginationVO<Activity> pageList(Map<String, Object> map);
 

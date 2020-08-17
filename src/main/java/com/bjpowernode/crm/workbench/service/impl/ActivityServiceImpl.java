@@ -22,13 +22,8 @@ public class ActivityServiceImpl implements ActivityService {
     private final ActivityRemarkDao activityRemarkDao = SqlSessionUtil.getSqlSession().getMapper(ActivityRemarkDao.class);
     private final UserDao userDao = SqlSessionUtil.getSqlSession().getMapper(UserDao.class);
 
-    public boolean save(Activity a) {
-        boolean flag = true;
-        int count = activityDao.save(a);
-        if (count != 1) {
-            flag = false;
-        }
-        return flag;
+    public boolean save(Activity activity) {
+        return 1 == activityDao.save(activity);
     }
 
     public PaginationVO<Activity> pageList(Map<String, Object> map) {

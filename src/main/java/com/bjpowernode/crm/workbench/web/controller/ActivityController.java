@@ -226,29 +226,32 @@ public class ActivityController extends HttpServlet {
 
     private void save(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("执行市场活动添加操作");
-        String id = UUIDUtil.getUUID();
+        //获取参数
+        String uuid = UUIDUtil.getUUID();
+        String cost = request.getParameter("cost");
+        String startDate = request.getParameter("startDate");
         String owner = request.getParameter("owner");
         String name = request.getParameter("name");
-        String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
-        String cost = request.getParameter("cost");
         String description = request.getParameter("description");
-        //创建时间：当前系统时间
-        String createTime = DateTimeUtil.getSysTime();
-        //创建人：当前登录用户
-        String createBy = ((User) request.getSession().getAttribute("user")).getName();
-        Activity a = new Activity();
-        a.setId(id);
-        a.setCost(cost);
-        a.setStartDate(startDate);
-        a.setOwner(owner);
-        a.setName(name);
-        a.setEndDate(endDate);
-        a.setDescription(description);
-        a.setCreateTime(createTime);
-        a.setCreateBy(createBy);
-        ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
-        boolean flag = as.save(a);
+        //创建时间
+        String sysTime = DateTimeUtil.getSysTime();
+        //创建人名称
+        String user = ((User) request.getSession().getAttribute("user")).getName();
+        //打包对象，进行保存数据操作
+        Activity activity = new Activity();
+        activity.setId(uuid);
+        activity.setOwner(owner);
+        activity.setName(name);
+        activity.setStartDate(startDate);
+        activity.setEndDate(endDate);
+        activity.setCost(cost);
+        activity.setDescription(description);
+        activity.setCreateTime(sysTime);
+        activity.setCreateBy(user);
+        ActivityService activityService = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = activityService.save(activity);
+        //返回前端信息
         PrintJson.printJsonFlag(response, flag);
     }
 
