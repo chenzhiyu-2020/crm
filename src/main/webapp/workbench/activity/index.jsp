@@ -20,7 +20,6 @@
     <script type="text/javascript" src="jquery/bs_pagination/jquery.bs_pagination.min.js"></script>
     <script type="text/javascript" src="jquery/bs_pagination/en.js"></script>
     <script type="text/javascript">
-
         $(function () {
             //为日期数据绑定插件，方便输入，阻止数据格式错误
             $(".time").datetimepicker({
@@ -31,7 +30,6 @@
                 todayBtn: true,
                 pickerPosition: "bottom-left"
             });
-
             //为创建按钮绑定事件，打开添加操作的模态窗口
             $("#addBtn").click(function () {
                 //走后台，目的是为了取得用户信息列表，为所有者下拉框铺值
@@ -56,8 +54,23 @@
                     }
                 })
             })
+            //创建模态失焦验证
+            $("#create-owner").blur(function () {
+                checkOwner("#create-owner");
+            })
+            $("#create-name").blur(function () {
+                checkName("#create-name");
+            })
             //为保存按钮绑定事件，执行添加操作
             $("#saveBtn").click(function () {
+                if ($.trim($("#create-owner").val()) === '') {
+                    $.trim($("#create-owner").focus());
+                    return;
+                }
+                if ($.trim($("#create-name").val()) === '') {
+                    $.trim($("#create-name").focus());
+                    return;
+                }
                 $.ajax({
                     url: "workbench/activity/save.do",
                     data: {
@@ -204,12 +217,23 @@
                     })
                 }
             })
+            //修改模态失焦验证
+            $("#edit-owner").blur(function () {
+                checkOwner("#edit-owner");
+            })
+            $("#edit-name").blur(function () {
+                checkName("#edit-name");
+            })
             //为更新按钮绑定事件，执行市场活动的修改操作
-            /*
-                在实际项目开发中，一定是按照先做添加，再做修改的这种顺序
-                所以，为了节省开发时间，修改操作一般都是copy添加操作
-             */
             $("#updateBtn").click(function () {
+                if ($.trim($("#edit-owner").val()) === '') {
+                    $.trim($("#edit-owner").focus());
+                    return;
+                }
+                if ($.trim($("#edit-name").val()) === '') {
+                    $.trim($("#edit-name").focus());
+                    return;
+                }
                 $.ajax({
                     url: "workbench/activity/update.do",
                     data: {
@@ -246,6 +270,22 @@
                 })
             })
         });
+
+        function checkOwner(owner) {
+            if ($.trim($(owner).val()) === '') {
+                $.trim($(".owner-span").html("所有者不能为空"));
+            } else {
+                $.trim($(".owner-span").html(""));
+            }
+        }
+
+        function checkName(name) {
+            if ($.trim($(name).val()) === '') {
+                $.trim($(".name-span").html("名称不能为空"));
+            } else {
+                $.trim($(".name-span").html(""));
+            }
+        }
 
         /*
             对于所有的关系型数据库，做前端的分页相关操作的基础组件
@@ -349,12 +389,13 @@
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="edit-owner">
-                            </select>
+                            </select><span style="color:red" class="owner-span"></span>
                         </div>
                         <label for="edit-marketActivityName" class="col-sm-2 control-label">名称<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="edit-name">
+                            <input type="text" class="form-control" id="edit-name"><span style="color:red"
+                                                                                         class="name-span"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -410,12 +451,13 @@
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="create-owner">
-                            </select>
+                            </select><span style="color:red" class="owner-span"></span>
                         </div>
                         <label for="create-marketActivityName" class="col-sm-2 control-label">名称<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="create-name">
+                            <input type="text" class="form-control" id="create-name"><span style="color:red"
+                                                                                           class="name-span"></span>
                         </div>
                     </div>
                     <div class="form-group">
