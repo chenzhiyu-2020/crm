@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
 %>
@@ -11,7 +11,7 @@
     <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
     <link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css"
           rel="stylesheet"/>
-    <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
+    <script type="text/javascript" src="jquery/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript"
@@ -30,6 +30,18 @@
                 todayBtn: true,
                 pickerPosition: "bottom-left"
             });
+            //页面加载完毕后触发一个方法，默认展开列表的第一页，每页展现十条记录
+            pageList(1, 10);
+            //为查询按钮绑定事件，触发pageList方法
+            $("#searchBtn").click(function () {
+                // 点击查询按钮的时候，我们应该将搜索框中的信息保存起来,保存到隐藏域中
+                $("#hidden-name").val($.trim($("#search-name").val()));
+                $("#hidden-owner").val($.trim($("#search-owner").val()));
+                $("#hidden-startDate").val($.trim($("#search-startDate").val()));
+                $("#hidden-endDate").val($.trim($("#search-endDate").val()));
+                pageList(1, 10);
+            })
+
             //为创建按钮绑定事件，打开添加操作的模态窗口
             $("#addBtn").click(function () {
                 //走后台，目的是为了取得用户信息列表，为所有者下拉框铺值
@@ -54,7 +66,7 @@
                     }
                 })
             })
-            //创建模态失焦验证
+            //创建模态窗口表单失焦验证
             $("#create-owner").blur(function () {
                 checkOwner("#create-owner");
             })
@@ -99,20 +111,98 @@
                     }
                 })
             })
-            //页面加载完毕后触发一个方法
-            //默认展开列表的第一页，每页展现两条记录
-            pageList(1, 10);
-            //为查询按钮绑定事件，触发pageList方法
-            $("#searchBtn").click(function () {
-                /*
-                    点击查询按钮的时候，我们应该将搜索框中的信息保存起来,保存到隐藏域中
-                 */
-                $("#hidden-name").val($.trim($("#search-name").val()));
-                $("#hidden-owner").val($.trim($("#search-owner").val()));
-                $("#hidden-startDate").val($.trim($("#search-startDate").val()));
-                $("#hidden-endDate").val($.trim($("#search-endDate").val()));
-                pageList(1, 10);
+
+            //为修改按钮绑定事件，打开修改操作的模态窗口
+            $("#editBtn").click(function () {
+                var $xz = $("input[name=xz]:checked");
+                if ($xz.length === 0) {
+                    alert("请选择需要修改的记录");
+                } else if ($xz.length > 1) {
+                    alert("只能选择一条记录进行修改");
+                    //肯定只选了一条
+                } else {
+                    var id = $xz.val();
+                    $.ajax({
+                        url: "workbench/activity/getUserListAndActivity.do",
+                        data: {
+                            "id": id
+                        },
+                        type: "get",
+                        dataType: "json",
+                        success: function (data) {
+                            //处理所有者下拉框
+                            var html = "<option></option>";
+                            $.each(data.uList, function (i, n) {
+                                html += "<option value='" + n.id + "'>" + n.name + "</option>";
+                            })
+                            $("#edit-owner").html(html);
+                            //处理单条activity
+                            $("#edit-id").val(data.a.id);
+                            $("#edit-name").val(data.a.name);
+                            $("#edit-owner").val(data.a.owner);
+                            $("#edit-startDate").val(data.a.startDate);
+                            $("#edit-endDate").val(data.a.endDate);
+                            $("#edit-cost").val(data.a.cost);
+                            $("#edit-description").val(data.a.description);
+                            //所有的值都填写好之后，打开修改操作的模态窗口
+                            $("#editActivityModal").modal("show");
+                        }
+                    })
+                }
             })
+            //修改模态窗口表单失焦验证
+            $("#edit-owner").blur(function () {
+                checkOwner("#edit-owner");
+            })
+            $("#edit-name").blur(function () {
+                checkName("#edit-name");
+            })
+            //为更新按钮绑定事件，执行市场活动的修改操作
+            $("#updateBtn").click(function () {
+                if ($.trim($("#edit-owner").val()) === '') {
+                    $.trim($("#edit-owner").focus());
+                    return;
+                }
+                if ($.trim($("#edit-name").val()) === '') {
+                    $.trim($("#edit-name").focus());
+                    return;
+                }
+                $.ajax({
+                    url: "workbench/activity/update.do",
+                    data: {
+                        "id": $.trim($("#edit-id").val()),
+                        "owner": $.trim($("#edit-owner").val()),
+                        "name": $.trim($("#edit-name").val()),
+                        "startDate": $.trim($("#edit-startDate").val()),
+                        "endDate": $.trim($("#edit-endDate").val()),
+                        "cost": $.trim($("#edit-cost").val()),
+                        "description": $.trim($("#edit-description").val())
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        /*
+                            data
+                                {"success":true/false}
+                         */
+                        if (data.success) {
+                            //修改成功后
+                            //刷新市场活动信息列表（局部刷新）
+                            //pageList(1,2);
+                            /*
+                                修改操作后，应该维持在当前页，维持每页展现的记录数
+                             */
+                            pageList($("#activityPage").bs_pagination('getOption', 'currentPage')
+                                , $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
+                            //关闭修改操作的模态窗口
+                            $("#editActivityModal").modal("hide");
+                        } else {
+                            alert("修改市场活动失败");
+                        }
+                    }
+                })
+            })
+
             //为全选的复选框绑定事件，触发全选操作
             $("#qx").click(function () {
                 $("input[name=xz]").prop("checked", this.checked);
@@ -173,104 +263,9 @@
                     }
                 }
             })
-            //为修改按钮绑定事件，打开修改操作的模态窗口
-            $("#editBtn").click(function () {
-                var $xz = $("input[name=xz]:checked");
-                if ($xz.length === 0) {
-                    alert("请选择需要修改的记录");
-                } else if ($xz.length > 1) {
-                    alert("只能选择一条记录进行修改");
-                    //肯定只选了一条
-                } else {
-                    var id = $xz.val();
-                    $.ajax({
-                        url: "workbench/activity/getUserListAndActivity.do",
-                        data: {
-                            "id": id
-                        },
-                        type: "get",
-                        dataType: "json",
-                        success: function (data) {
-                            /*
-                                data
-                                    用户列表
-                                    市场活动对象
-                                    {"uList":[{用户1},{2},{3}],"a":{市场活动}}
-                             */
-                            //处理所有者下拉框
-                            var html = "<option></option>";
-                            $.each(data.uList, function (i, n) {
-                                html += "<option value='" + n.id + "'>" + n.name + "</option>";
-                            })
-                            $("#edit-owner").html(html);
-                            //处理单条activity
-                            $("#edit-id").val(data.a.id);
-                            $("#edit-name").val(data.a.name);
-                            $("#edit-owner").val(data.a.owner);
-                            $("#edit-startDate").val(data.a.startDate);
-                            $("#edit-endDate").val(data.a.endDate);
-                            $("#edit-cost").val(data.a.cost);
-                            $("#edit-description").val(data.a.description);
-                            //所有的值都填写好之后，打开修改操作的模态窗口
-                            $("#editActivityModal").modal("show");
-                        }
-                    })
-                }
-            })
-            //修改模态失焦验证
-            $("#edit-owner").blur(function () {
-                checkOwner("#edit-owner");
-            })
-            $("#edit-name").blur(function () {
-                checkName("#edit-name");
-            })
-            //为更新按钮绑定事件，执行市场活动的修改操作
-            $("#updateBtn").click(function () {
-                if ($.trim($("#edit-owner").val()) === '') {
-                    $.trim($("#edit-owner").focus());
-                    return;
-                }
-                if ($.trim($("#edit-name").val()) === '') {
-                    $.trim($("#edit-name").focus());
-                    return;
-                }
-                $.ajax({
-                    url: "workbench/activity/update.do",
-                    data: {
-                        "id": $.trim($("#edit-id").val()),
-                        "owner": $.trim($("#edit-owner").val()),
-                        "name": $.trim($("#edit-name").val()),
-                        "startDate": $.trim($("#edit-startDate").val()),
-                        "endDate": $.trim($("#edit-endDate").val()),
-                        "cost": $.trim($("#edit-cost").val()),
-                        "description": $.trim($("#edit-description").val())
-                    },
-                    type: "post",
-                    dataType: "json",
-                    success: function (data) {
-                        /*
-                            data
-                                {"success":true/false}
-                         */
-                        if (data.success) {
-                            //修改成功后
-                            //刷新市场活动信息列表（局部刷新）
-                            //pageList(1,2);
-                            /*
-                                修改操作后，应该维持在当前页，维持每页展现的记录数
-                             */
-                            pageList($("#activityPage").bs_pagination('getOption', 'currentPage')
-                                , $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
-                            //关闭修改操作的模态窗口
-                            $("#editActivityModal").modal("hide");
-                        } else {
-                            alert("修改市场活动失败");
-                        }
-                    }
-                })
-            })
         });
 
+        //失焦验证模态窗口所有者不能为空
         function checkOwner(owner) {
             if ($.trim($(owner).val()) === '') {
                 $.trim($(".owner-span").html("所有者不能为空"));
@@ -279,6 +274,7 @@
             }
         }
 
+        //失焦验证模态窗口名称不能为空
         function checkName(name) {
             if ($.trim($(name).val()) === '') {
                 $.trim($(".name-span").html("名称不能为空"));
