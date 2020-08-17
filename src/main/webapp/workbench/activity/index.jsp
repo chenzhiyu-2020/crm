@@ -88,7 +88,7 @@
             })
             //页面加载完毕后触发一个方法
             //默认展开列表的第一页，每页展现两条记录
-            pageList(1, 2);
+            pageList(1, 10);
             //为查询按钮绑定事件，触发pageList方法
             $("#searchBtn").click(function () {
                 /*
@@ -98,7 +98,7 @@
                 $("#hidden-owner").val($.trim($("#search-owner").val()));
                 $("#hidden-startDate").val($.trim($("#search-startDate").val()));
                 $("#hidden-endDate").val($.trim($("#search-endDate").val()));
-                pageList(1, 2);
+                pageList(1, 10);
             })
             //为全选的复选框绑定事件，触发全选操作
             $("#qx").click(function () {
@@ -115,13 +115,13 @@
                     $(需要绑定元素的有效的外层元素).on(绑定事件的方式,需要绑定的元素的jquery对象,回调函数)
              */
             $("#activityBody").on("click", $("input[name=xz]"), function () {
-                $("#qx").prop("checked", $("input[name=xz]").length == $("input[name=xz]:checked").length);
+                $("#qx").prop("checked", $("input[name=xz]").length === $("input[name=xz]:checked").length);
             })
             //为删除按钮绑定事件，执行市场活动删除操作
             $("#deleteBtn").click(function () {
                 //找到复选框中所有挑√的复选框的jquery对象
                 var $xz = $("input[name=xz]:checked");
-                if ($xz.length == 0) {
+                if ($xz.length === 0) {
                     alert("请选择需要删除的记录");
                     //肯定选了，而且有可能是1条，有可能是多条
                 } else {
@@ -163,7 +163,7 @@
             //为修改按钮绑定事件，打开修改操作的模态窗口
             $("#editBtn").click(function () {
                 var $xz = $("input[name=xz]:checked");
-                if ($xz.length == 0) {
+                if ($xz.length === 0) {
                     alert("请选择需要修改的记录");
                 } else if ($xz.length > 1) {
                     alert("只能选择一条记录进行修改");
@@ -303,7 +303,7 @@
                     })
                     $("#activityBody").html(html);
                     //计算总页数
-                    var totalPages = data.total % pageSize == 0 ? data.total / pageSize : parseInt(data.total / pageSize) + 1;
+                    var totalPages = data.total % pageSize === 0 ? data.total / pageSize : parseInt(data.total / pageSize) + 1;
                     //数据处理完毕后，结合分页查询，对前端展现分页信息
                     $("#activityPage").bs_pagination({
                         currentPage: pageNo, // 页码

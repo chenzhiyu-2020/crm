@@ -97,10 +97,10 @@
                 and u.name like '%' #{owner} '%'
             </if>
             <if test="startDate!=null and startDate!=''">
-                and a.startDate &gt; #{startDate}
+                and a.startDate &gt;= #{startDate}
             </if>
             <if test="endDate!=null and endDate!=''">
-                and a.endDate &lt; #{endDate}
+                and a.endDate &lt;= #{endDate}
             </if>
         </where>
     </select>
@@ -122,10 +122,10 @@
                 and u.name like '%' #{owner} '%'
             </if>
             <if test="startDate!=null and startDate!=''">
-                and a.startDate &gt; #{startDate}
+                and a.startDate &gt;= #{startDate}
             </if>
             <if test="endDate!=null and endDate!=''">
-                and a.endDate &lt; #{endDate}
+                and a.endDate &lt;= #{endDate}
             </if>
         </where>
         order by a.createTime desc

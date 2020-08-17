@@ -27,7 +27,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     public PaginationVO<Activity> pageList(Map<String, Object> map) {
-        //取得total
+        //取得total,动态查询总条数
         int total = activityDao.getTotalByCondition(map);
         //取得dataList
         List<Activity> dataList = activityDao.getActivityListByCondition(map);
@@ -62,7 +62,7 @@ public class ActivityServiceImpl implements ActivityService {
         //取a
         Activity a = activityDao.getById(id);
         //将uList和a打包到map中
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>(16);
         map.put("uList", uList);
         map.put("a", a);
         //返回map就可以了
