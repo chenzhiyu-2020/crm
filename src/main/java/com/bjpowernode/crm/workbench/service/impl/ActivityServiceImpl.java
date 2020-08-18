@@ -40,20 +40,10 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     public boolean delete(String[] ids) {
-        boolean flag = true;
-        //查询出需要删除的备注的数量
-        int count1 = activityRemarkDao.getCountByAids(ids);
-        //删除备注，返回受到影响的条数（实际删除的数量）
-        int count2 = activityRemarkDao.deleteByAids(ids);
-        if (count1 != count2) {
-            flag = false;
-        }
-        //删除市场活动
-        int count3 = activityDao.delete(ids);
-        if (count3 != ids.length) {
-            flag = false;
-        }
-        return flag;
+        //查询出需要删除的备注的数量getCountByAids
+        //删除备注，返回受到影响的条数（实际删除的数量）deleteByAids
+        //删除市场活动delete
+        return activityRemarkDao.getCountByAids(ids) == activityRemarkDao.deleteByAids(ids) && activityDao.delete(ids) == ids.length;
     }
 
     public Map<String, Object> getUserListAndActivity(String id) {
@@ -70,12 +60,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     public boolean update(Activity a) {
-        boolean flag = true;
-        int count = activityDao.update(a);
-        if (count != 1) {
-            flag = false;
-        }
-        return flag;
+        return activityDao.update(a) == 1;
     }
 
     public Activity detail(String id) {
@@ -87,30 +72,15 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     public boolean deleteRemark(String id) {
-        boolean flag = true;
-        int count = activityRemarkDao.deleteById(id);
-        if (count != 1) {
-            flag = false;
-        }
-        return flag;
+        return activityRemarkDao.deleteById(id) == 1;
     }
 
     public boolean saveRemark(ActivityRemark ar) {
-        boolean flag = true;
-        int count = activityRemarkDao.saveRemark(ar);
-        if (count != 1) {
-            flag = false;
-        }
-        return flag;
+        return activityRemarkDao.saveRemark(ar) == 1;
     }
 
     public boolean updateRemark(ActivityRemark ar) {
-        boolean flag = true;
-        int count = activityRemarkDao.updateRemark(ar);
-        if (count != 1) {
-            flag = false;
-        }
-        return flag;
+        return activityRemarkDao.updateRemark(ar) == 1;
     }
 
     public List<Activity> getActivityListByClueId(String clueId) {
