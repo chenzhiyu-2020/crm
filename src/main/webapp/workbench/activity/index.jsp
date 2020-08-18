@@ -220,6 +220,7 @@
             $("#activityBody").on("click", $("input[name=xz]"), function () {
                 $("#qx").prop("checked", $("input[name=xz]").length === $("input[name=xz]:checked").length);
             })
+
             //为删除按钮绑定事件，执行市场活动删除操作
             $("#deleteBtn").click(function () {
                 //找到复选框中所有挑√的复选框的jquery对象
@@ -240,7 +241,6 @@
                                 param += "&";
                             }
                         }
-                        //alert(param);
                         $.ajax({
                             url: "workbench/activity/delete.do",
                             data: param,
@@ -263,6 +263,7 @@
                     }
                 }
             })
+
         });
 
         //失焦验证模态窗口所有者不能为空
