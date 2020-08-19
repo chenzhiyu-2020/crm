@@ -40,7 +40,7 @@
             })
             //为搜索操作模态窗口的 搜索框绑定事件，执行搜索并展现市场活动列表的操作
             $("#aname").keydown(function (event) {
-                if (event.keyCode == 13) {
+                if (event.keyCode === 13) {
                     $.ajax({
                         url: "workbench/clue/getActivityListByName.do",
                         data: {
