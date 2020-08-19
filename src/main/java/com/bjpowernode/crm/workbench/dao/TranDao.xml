@@ -21,24 +21,11 @@
         where id = #{id}
     </update>
     <select id="detail" resultType="Tran">
-        select tran.id,
+        select tran.*,
                user.name    as owner,
-               tran.money,
-               tran.name,
-               tran.expectedDate,
                cus.name     as customerId,
-               tran.stage,
-               tran.type,
-               tran.source,
                act.name     as activityId,
-               con.fullname as contactsId,
-               tran.createBy,
-               tran.createTime,
-               tran.editBy,
-               tran.editTime,
-               tran.description,
-               tran.contactSummary,
-               tran.nextContactTime
+               con.fullname as contactsId
         from tbl_tran tran
                  join tbl_user user
                       on tran.owner = user.id

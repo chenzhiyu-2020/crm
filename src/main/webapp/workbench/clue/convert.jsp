@@ -49,10 +49,6 @@
                         type: "get",
                         dataType: "json",
                         success: function (data) {
-                            /*
-                                data
-                                    [{市场活动1},{2},{3}]
-                             */
                             var html = "";
                             $.each(data, function (i, n) {
                                 html += '<tr>';
@@ -84,11 +80,6 @@
             })
             //为转换按钮绑定事件,执行线索的转换操作
             $("#convertBtn").click(function () {
-                /*
-                    提交请求到后台，执行线索转换的操作，应该发出传统请求
-                    请求结束后，最终响应回线索列表页
-                    根据"为客户创建交易"的复选框有没有挑√，来判断是否需要创建交易
-                 */
                 if ($("#isCreateTransaction").prop("checked")) {
                     //alert("需要创建交易");
                     //如果需要创建交易，除了要为后台传递clueId之外，还得为后台传递交易表单中的信息，金额，预计成交日期，交易名称，阶段，市场活动源（id）
@@ -99,7 +90,6 @@
                     //提交表单
                     $("#tranForm").submit();
                 } else {
-                    //alert("不需要创建交易");
                     //在不需要创建交易的时候，传一个clueId就可以了
                     window.location.href = "workbench/clue/convert.do?clueId=${param.id}";
                 }
