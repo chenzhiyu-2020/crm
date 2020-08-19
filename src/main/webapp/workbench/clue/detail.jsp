@@ -48,7 +48,7 @@
             //为关联市场活动模态窗口中的 搜索框 绑定事件，通过触发回车键，查询并展现所需市场活动列表
             $("#aname").keydown(function (event) {
                 //如果是回车键
-                if (event.keyCode == 13) {
+                if (event.keyCode === 13) {
                     //alert("查询并展现市场活动列表");
                     $.ajax({
                         url: "workbench/clue/getActivityListByNameAndNotByClueId.do",
@@ -59,10 +59,6 @@
                         type: "get",
                         dataType: "json",
                         success: function (data) {
-                            /*
-                                data
-                                    [{市场活动1},{2},{3}]
-                             */
                             var html = "";
                             $.each(data, function (i, n) {
                                 html += '<tr>';
@@ -102,10 +98,6 @@
                         type: "post",
                         dataType: "json",
                         success: function (data) {
-                            /*
-                                data
-                                    {"success":true/false}
-                             */
                             if (data.success) {
                                 //关联成功
                                 //刷新关联市场活动的列表
@@ -131,10 +123,6 @@
                 type: "get",
                 dataType: "json",
                 success: function (data) {
-                    /*
-                        data
-                            [{市场活动1},{2},{3}]
-                     */
                     var html = "";
                     $.each(data, function (i, n) {
                         html += '<tr>';
@@ -150,9 +138,6 @@
             })
         }
 
-        /*
-            id:我们想要一个关联关系表的id
-         */
         function unbund(id) {
             $.ajax({
                 url: "workbench/clue/unbund.do",
@@ -162,10 +147,6 @@
                 type: "post",
                 dataType: "json",
                 success: function (data) {
-                    /*
-                        data
-                            {"success":true/false}
-                     */
                     if (data.success) {
                         //解除关联成功
                         //刷新关联的市场活动列表

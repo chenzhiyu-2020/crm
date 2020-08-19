@@ -7,6 +7,7 @@ import com.bjpowernode.crm.utils.DateTimeUtil;
 import com.bjpowernode.crm.utils.PrintJson;
 import com.bjpowernode.crm.utils.ServiceFactory;
 import com.bjpowernode.crm.utils.UUIDUtil;
+import com.bjpowernode.crm.vo.PaginationVO;
 import com.bjpowernode.crm.workbench.domain.Activity;
 import com.bjpowernode.crm.workbench.domain.Clue;
 import com.bjpowernode.crm.workbench.domain.Tran;
@@ -50,7 +51,40 @@ public class ClueController extends HttpServlet {
             getActivityListByName(request, response);
         } else if ("/workbench/clue/convert.do".equals(path)) {
             convert(request, response);
+        }else if ("/workbench/clue/pageList.do".equals(path)) {
+            pageList(request, response);
         }
+    }
+
+    private void pageList(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到查询线索信息列表的操作（结合条件查询+分页查询）");
+        String fullname = request.getParameter("fullname");
+        String company = request.getParameter("company");
+        String phone = request.getParameter("phone");
+        String source = request.getParameter("source");
+        String owner = request.getParameter("owner");
+        String mphone = request.getParameter("mphone");
+        String state = request.getParameter("state");
+        String pageNoStr = request.getParameter("pageNo");
+        int pageNo = Integer.parseInt(pageNoStr);
+        //每页展现的记录数
+        String pageSizeStr = request.getParameter("pageSize");
+        int pageSize = Integer.parseInt(pageSizeStr);
+        //计算出略过的记录数
+        int skipCount = (pageNo - 1) * pageSize;
+        Map<String, Object> map = new HashMap<String, Object>(16);
+        map.put("fullname", fullname);
+        map.put("company", company);
+        map.put("phone", phone);
+        map.put("source", source);
+        map.put("owner", owner);
+        map.put("mphone", mphone);
+        map.put("state", state);
+        map.put("skipCount", skipCount);
+        map.put("pageSize", pageSize);
+        ClueService cs = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        PaginationVO<Clue> vo = cs.pageList(map);
+        PrintJson.printJsonObj(response, vo);
     }
 
     private void convert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -3,11 +3,13 @@ package com.bjpowernode.crm.workbench.service.impl;
 import com.bjpowernode.crm.utils.DateTimeUtil;
 import com.bjpowernode.crm.utils.SqlSessionUtil;
 import com.bjpowernode.crm.utils.UUIDUtil;
+import com.bjpowernode.crm.vo.PaginationVO;
 import com.bjpowernode.crm.workbench.dao.*;
 import com.bjpowernode.crm.workbench.domain.*;
 import com.bjpowernode.crm.workbench.service.ClueService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 北京动力节点
@@ -29,12 +31,7 @@ public class ClueServiceImpl implements ClueService {
     private final TranHistoryDao tranHistoryDao = SqlSessionUtil.getSqlSession().getMapper(TranHistoryDao.class);
 
     public boolean save(Clue c) {
-        boolean flag = true;
-        int count = clueDao.save(c);
-        if (count != 1) {
-            flag = false;
-        }
-        return flag;
+        return clueDao.save(c)==1;
     }
 
     public Clue detail(String id) {
@@ -42,12 +39,7 @@ public class ClueServiceImpl implements ClueService {
     }
 
     public boolean unbund(String id) {
-        boolean flag = true;
-        int count = clueActivityRelationDao.unbund(id);
-        if (count != 1) {
-            flag = false;
-        }
-        return flag;
+        return clueActivityRelationDao.unbund(id)==1;
     }
 
     public boolean bund(String cid, String[] aids) {
@@ -229,5 +221,18 @@ public class ClueServiceImpl implements ClueService {
             flag = false;
         }
         return flag;
+    }
+
+    public PaginationVO<Clue> pageList(Map<String, Object> map) {
+        //取得total,动态查询总条数
+        int total = clueDao.getTotalByCondition(map);
+        //取得dataList
+        List<Clue> dataList = clueDao.getClueListByCondition(map);
+        //创建一个vo对象，将total和dataList封装到vo中
+        PaginationVO<Clue> vo = new PaginationVO<Clue>();
+        vo.setTotal(total);
+        vo.setDataList(dataList);
+        //将vo返回
+        return vo;
     }
 }

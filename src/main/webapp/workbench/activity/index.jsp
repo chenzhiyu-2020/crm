@@ -167,17 +167,10 @@
                     type: "post",
                     dataType: "json",
                     success: function (data) {
-                        /*
-                            data
-                                {"success":true/false}
-                         */
                         if (data.success) {
                             //修改成功后
                             //刷新市场活动信息列表（局部刷新）
                             //pageList(1,2);
-                            /*
-                                修改操作后，应该维持在当前页，维持每页展现的记录数
-                             */
                             pageList($("#activityPage").bs_pagination('getOption', 'currentPage')
                                 , $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
                             //关闭修改操作的模态窗口
@@ -194,15 +187,7 @@
                 $("input[name=xz]").prop("checked", this.checked);
             })
             //以下这种做法是不行的
-            /*$("input[name=xz]").click(function () {
-                alert(123);
-            })*/
             //因为动态生成的元素，是不能够以普通绑定事件的形式来进行操作的
-            /*
-                动态生成的元素，我们要以on方法的形式来触发事件
-                语法：
-                    $(需要绑定元素的有效的外层元素).on(绑定事件的方式,需要绑定的元素的jquery对象,回调函数)
-             */
             $("#activityBody").on("click", $("input[name=xz]"), function () {
                 $("#qx").prop("checked", $("input[name=xz]").length === $("input[name=xz]:checked").length);
             })
@@ -261,20 +246,6 @@
             }
         }
 
-        /*
-            对于所有的关系型数据库，做前端的分页相关操作的基础组件
-            就是pageNo和pageSize
-            pageNo:页码
-            pageSize:每页展现的记录数
-            pageList方法：就是发出ajax请求到后台，从后台取得最新的市场活动信息列表数据
-                            通过响应回来的数据，局部刷新市场活动信息列表
-            我们都在哪些情况下，需要调用pageList方法（什么情况下需要刷新一下市场活动列表）
-            （1）点击左侧菜单中的"市场活动"超链接，需要刷新市场活动列表，调用pageList方法
-            （2）添加，修改，删除后，需要刷新市场活动列表，调用pageList方法
-            （3）点击查询按钮的时候，需要刷新市场活动列表，调用pageList方法
-            （4）点击分页组件的时候，调用pageList方法
-            以上为pageList方法制定了六个入口，也就是说，在以上6个操作执行完毕后，我们必须要调用pageList方法，刷新市场活动信息列表
-         */
         function pageList(pageNo, pageSize) {
             //将全选的复选框的√干掉
             $("#qx").prop("checked", false);
@@ -296,14 +267,6 @@
                 type: "get",
                 dataType: "json",
                 success: function (data) {
-                    /*
-                        data
-                            我们需要的：市场活动信息列表
-                            [{市场活动1},{2},{3}] List<Activity> aList
-                            一会分页插件需要的：查询出来的总记录数
-                            {"total":100} int total
-                            {"total":100,"dataList":[{市场活动1},{2},{3}]}
-                     */
                     var html = "";
                     //每一个n就是每一个市场活动对象
                     $.each(data.dataList, function (i, n) {
@@ -391,12 +354,6 @@
                     <div class="form-group">
                         <label for="edit-describe" class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10" style="width: 81%;">
-                            <!--
-                                关于文本域textarea：
-                                    （1）一定是要以标签对的形式来呈现,正常状态下标签对要紧紧的挨着
-                                    （2）textarea虽然是以标签对的形式来呈现的，但是它也是属于表单元素范畴
-                                            我们所有的对于textarea的取值和赋值操作，应该统一使用val()方法（而不是html()方法）
-                            -->
                             <textarea class="form-control" rows="3" id="edit-description">123</textarea>
                         </div>
                     </div>
@@ -506,18 +463,6 @@
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <!--
-                    点击创建按钮，观察两个属性和属性值
-                    data-toggle="modal"：
-                        表示触发该按钮，将要打开一个模态窗口
-                    data-target="#createActivityModal"：
-                        表示要打开哪个模态窗口，通过#id的形式找到该窗口
-                    现在我们是以属性和属性值的方式写在了button元素中，用来打开模态窗口
-                    但是这样做是有问题的：
-                        问题在于没有办法对按钮的功能进行扩充
-                    所以未来的实际项目开发，对于触发模态窗口的操作，一定不要写死在元素当中，
-                    应该由我们自己写js代码来操作
-                -->
                 <button type="button" class="btn btn-primary" id="addBtn"><span class="glyphicon glyphicon-plus"></span>
                     创建
                 </button>
@@ -541,7 +486,6 @@
                 </tr>
                 </thead>
                 <tbody id="activityBody">
-                <%--表格数据--%>
                 </tbody>
             </table>
         </div>

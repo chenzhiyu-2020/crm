@@ -39,6 +39,68 @@
                       on c.owner = u.id
         where c.id = #{id}
     </select>
+    <select id="getTotalByCondition" resultType="java.lang.Integer">
+        select count(*)
+        from tbl_clue c
+        join tbl_user u
+        on c.owner=u.id
+        <where>
+            <if test="fullname!=null and fullname!=''">
+                c.fullname like '%' #{fullname} '%'
+            </if>
+            <if test="company!=null and company!=''">
+                and c.company like '%' #{company} '%'
+            </if>
+            <if test="phone!=null and phone!=''">
+                and c.phone like '%' #{phone} '%'
+            </if>
+            <if test="source!=null and source!=''">
+                and c.source = #{source}
+            </if>
+            <if test="owner!=null and owner!=''">
+                and u.name like '%' #{owner} '%'
+            </if>
+            <if test="mphone!=null and mphone!=''">
+                and c.mphone like '%' #{mphone} '%'
+            </if>
+            <if test="state!=null and state!=''">
+                and c.state = #{state}
+            </if>
+        </where>
+    </select>
+    <select id="getClueListByCondition" resultType="com.bjpowernode.crm.workbench.domain.Clue">
+        select
+        c.*,
+        u.name as owner
+        from tbl_clue c
+        join tbl_user u
+        on c.owner=u.id
+        <where>
+            <if test="fullname!=null and fullname!=''">
+                c.fullname like '%' #{fullname} '%'
+            </if>
+            <if test="company!=null and company!=''">
+                and c.company like '%' #{company} '%'
+            </if>
+            <if test="phone!=null and phone!=''">
+                and c.phone like '%' #{phone} '%'
+            </if>
+            <if test="source!=null and source!=''">
+                and c.source = #{source}
+            </if>
+            <if test="owner!=null and owner!=''">
+                and u.name like '%' #{owner} '%'
+            </if>
+            <if test="mphone!=null and mphone!=''">
+                and c.mphone like '%' #{mphone} '%'
+            </if>
+            <if test="state!=null and state!=''">
+                and c.state = #{state}
+            </if>
+        </where>
+        order by c.createTime desc
+        limit #{skipCount},#{pageSize};
+    </select>
     <insert id="save">
         insert into tbl_clue(id,
                              fullname,

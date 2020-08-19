@@ -181,7 +181,7 @@ public class ActivityController extends HttpServlet {
         int pageSize = Integer.parseInt(pageSizeStr);
         //计算出略过的记录数
         int skipCount = (pageNo - 1) * pageSize;
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>(16);
         map.put("name", name);
         map.put("owner", owner);
         map.put("startDate", startDate);
@@ -189,28 +189,7 @@ public class ActivityController extends HttpServlet {
         map.put("skipCount", skipCount);
         map.put("pageSize", pageSize);
         ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
-        /*
-            前端要： 市场活动信息列表
-                    查询的总条数
-                    业务层拿到了以上两项信息之后，如果做返回
-                    map
-                    map.put("dataList":dataList)
-                    map.put("total":total)
-                    PrintJSON map --> json
-                    {"total":100,"dataList":[{市场活动1},{2},{3}]}
-                    vo
-                    PaginationVO<T>
-                        private int total;
-                        private List<T> dataList;
-                    PaginationVO<Activity> vo = new PaginationVO<>;
-                    vo.setTotal(total);
-                    vo.setDataList(dataList);
-                    PrintJSON vo --> json
-                    {"total":100,"dataList":[{市场活动1},{2},{3}]}
-                    将来分页查询，每个模块都有，所以我们选择使用一个通用vo，操作起来比较方便
-         */
         PaginationVO<Activity> vo = as.pageList(map);
-        //vo--> {"total":100,"dataList":[{市场活动1},{2},{3}]}
         PrintJson.printJsonObj(response, vo);
     }
 
