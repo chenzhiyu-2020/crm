@@ -93,11 +93,6 @@
                 <div class="checkbox" style="position: relative;top: 30px; left: 10px;">
                     <span id="msg" style="color: red"></span>
                 </div>
-                <!--
-                    注意：按钮写在form表单中，默认的行为就是提交表单
-                        一定要将按钮的类型设置为button
-                        按钮所触发的行为应该是由我们自己手动写js代码来决定
-                -->
                 <button type="button" id="submitBtn" class="btn btn-primary btn-lg btn-block"
                         style="width: 350px; position: relative;top: 45px;">登录
                 </button>
