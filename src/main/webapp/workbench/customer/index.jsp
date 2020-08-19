@@ -5,8 +5,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 <!DOCTYPE html>
 <html>
 <head>
+	<title></title>
 	<base href="<%=basePath%>">
-<meta charset="UTF-8">
+	<meta charset="UTF-8">
 
 <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 <link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />

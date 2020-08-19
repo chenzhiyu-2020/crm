@@ -51,6 +51,7 @@
             $("#remarkBody").on("mouseout", ".remarkDiv", function () {
                 $(this).children("div").children("div").hide();
             })
+
             //为保存按钮绑定事件，执行备注添加操作
             $("#saveRemarkBtn").click(function () {
                 $.ajax({
@@ -62,10 +63,6 @@
                     type: "post",
                     dataType: "json",
                     success: function (data) {
-                        /*
-                            data
-                                {"success":true/false,"ar":{备注}}
-                         */
                         if (data.success) {
                             //添加成功
                             //textarea文本域中的信息清空掉
@@ -91,6 +88,7 @@
                     }
                 })
             })
+
             //为更新按钮绑定事件
             $("#updateRemarkBtn").click(function () {
                 var id = $("#remarkId").val();
@@ -103,10 +101,6 @@
                     type: "post",
                     dataType: "json",
                     success: function (data) {
-                        /*
-                            data
-                                {"success":true/false,"ar":{备注}}
-                         */
                         if (data.success) {
                             //修改备注成功
                             //更新div中相应的信息，需要更新的内容有 noteContent，editTime，editBy
@@ -120,6 +114,7 @@
                     }
                 })
             })
+
         });
 
         function showRemarkList() {
@@ -137,7 +132,7 @@
                         html += '<img title="zhangsan" src="image/user-thumbnail.png" style="width: 30px; height:30px;">';
                         html += '<div style="position: relative; top: -40px; left: 40px;" >';
                         html += '<h5 id="e' + n.id + '">' + n.noteContent + '</h5>';
-                        html += '<font color="gray">市场活动</font> <font color="gray">-</font> <b>${a.name}</b> <small style="color: gray;" id="s' + n.id + '"> ' + (n.editFlag == 0 ? n.createTime : n.editTime) + ' 由' + (n.editFlag == 0 ? n.createBy : n.editBy) + '</small>';
+                        html += '<font color="gray">市场活动</font> <font color="gray">-</font> <b>${a.name}</b> <small style="color: gray;" id="s' + n.id + '"> ' + (n.editFlag === 0 ? n.createTime : n.editTime) + ' 由' + (n.editFlag === 0 ? n.createBy : n.editBy) + '</small>';
                         html += '<div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">';
                         html += '<a class="myHref" href="javascript:void(0);" onclick="editRemark(\'' + n.id + '\')"><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #FF0000;"></span></a>';
                         html += '&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -160,10 +155,6 @@
                 type: "post",
                 dataType: "json",
                 success: function (data) {
-                    /*
-                        data
-                            {"success":true/false}
-                     */
                     if (data.success) {
                         //删除备注成功
                         //这种做法不行，记录使用的是before方法，每一次删除之后，页面上都会保留原有的数据
@@ -178,7 +169,6 @@
         }
 
         function editRemark(id) {
-            //alert(id);
             //将模态窗口中，隐藏域中的id进行赋值
             $("#remarkId").val(id);
             //找到指定的存放备注信息的h5标签

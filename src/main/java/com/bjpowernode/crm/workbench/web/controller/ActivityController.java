@@ -93,7 +93,7 @@ public class ActivityController extends HttpServlet {
         ar.setEditFlag(editFlag);
         ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
         boolean flag = as.saveRemark(ar);
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>(16);
         map.put("success", flag);
         map.put("ar", ar);
         PrintJson.printJsonObj(response, map);

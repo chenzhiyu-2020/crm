@@ -50,7 +50,7 @@
                     type: "get",
                     dataType: "json",
                     success: function (data) {
-                        var html = "<option></option>";
+                        var html = "";
                         //遍历出来的每一个n，就是每一个user对象
                         $.each(data, function (i, n) {
                             html += "<option value='" + n.id + "'>" + n.name + "</option>";
@@ -67,18 +67,11 @@
                 })
             })
             //创建模态窗口表单失焦验证
-            $("#create-owner").blur(function () {
-                checkOwner("#create-owner");
-            })
             $("#create-name").blur(function () {
                 checkName("#create-name");
             })
             //为保存按钮绑定事件，执行添加操作
             $("#saveBtn").click(function () {
-                if ($.trim($("#create-owner").val()) === '') {
-                    $.trim($("#create-owner").focus());
-                    return;
-                }
                 if ($.trim($("#create-name").val()) === '') {
                     $.trim($("#create-name").focus());
                     return;
@@ -131,7 +124,7 @@
                         dataType: "json",
                         success: function (data) {
                             //处理所有者下拉框
-                            var html = "<option></option>";
+                            var html = "";
                             $.each(data.uList, function (i, n) {
                                 html += "<option value='" + n.id + "'>" + n.name + "</option>";
                             })
@@ -151,18 +144,11 @@
                 }
             })
             //修改模态窗口表单失焦验证
-            $("#edit-owner").blur(function () {
-                checkOwner("#edit-owner");
-            })
             $("#edit-name").blur(function () {
                 checkName("#edit-name");
             })
             //为更新按钮绑定事件，执行市场活动的修改操作
             $("#updateBtn").click(function () {
-                if ($.trim($("#edit-owner").val()) === '') {
-                    $.trim($("#edit-owner").focus());
-                    return;
-                }
                 if ($.trim($("#edit-name").val()) === '') {
                     $.trim($("#edit-name").focus());
                     return;
@@ -266,19 +252,10 @@
 
         });
 
-        //失焦验证模态窗口所有者不能为空
-        function checkOwner(owner) {
-            if ($.trim($(owner).val()) === '') {
-                $.trim($(".owner-span").html("所有者不能为空"));
-            } else {
-                $.trim($(".owner-span").html(""));
-            }
-        }
-
         //失焦验证模态窗口名称不能为空
         function checkName(name) {
             if ($.trim($(name).val()) === '') {
-                $.trim($(".name-span").html("名称不能为空"));
+                $.trim($(".name-span").html("不能为空"));
             } else {
                 $.trim($(".name-span").html(""));
             }
