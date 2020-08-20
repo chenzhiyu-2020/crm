@@ -55,7 +55,17 @@ public class ClueController extends HttpServlet {
             pageList(request, response);
         }else if ("/workbench/clue/delete.do".equals(path)) {
             delete(request, response);
+        }else if ("/workbench/clue/getUserListAndClue.do".equals(path)) {
+            getUserListAndClue(request, response);
         }
+    }
+
+    private void getUserListAndClue(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到查询用户信息列表和根据线索d查询单条记录的操作");
+        String id = request.getParameter("id");
+        ClueService cs = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        Map<String, Object> map = cs.getUserListAndClue(id);
+        PrintJson.printJsonObj(response, map);
     }
 
     private void delete(HttpServletRequest request, HttpServletResponse response) {

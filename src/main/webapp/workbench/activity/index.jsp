@@ -124,8 +124,8 @@
                             $("#edit-owner").html(html);
                             //处理单条activity
                             $("#edit-id").val(data.a.id);
-                            $("#edit-name").val(data.a.name);
                             $("#edit-owner").val(data.a.owner);
+                            $("#edit-name").val(data.a.name);
                             $("#edit-startDate").val(data.a.startDate);
                             $("#edit-endDate").val(data.a.endDate);
                             $("#edit-cost").val(data.a.cost);

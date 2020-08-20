@@ -1,5 +1,7 @@
 package com.bjpowernode.crm.workbench.service.impl;
 
+import com.bjpowernode.crm.settings.dao.UserDao;
+import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.utils.DateTimeUtil;
 import com.bjpowernode.crm.utils.SqlSessionUtil;
 import com.bjpowernode.crm.utils.UUIDUtil;
@@ -8,6 +10,7 @@ import com.bjpowernode.crm.workbench.dao.*;
 import com.bjpowernode.crm.workbench.domain.*;
 import com.bjpowernode.crm.workbench.service.ClueService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +18,7 @@ import java.util.Map;
  * @author 北京动力节点
  */
 public class ClueServiceImpl implements ClueService {
+    private final UserDao userDao = SqlSessionUtil.getSqlSession().getMapper(UserDao.class);
     //线索相关表
     private final ClueDao clueDao = SqlSessionUtil.getSqlSession().getMapper(ClueDao.class);
     private final ClueActivityRelationDao clueActivityRelationDao = SqlSessionUtil.getSqlSession().getMapper(ClueActivityRelationDao.class);
@@ -238,5 +242,18 @@ public class ClueServiceImpl implements ClueService {
 
     public boolean delete(String[] ids) {
         return clueRemarkDao.getCountByAids(ids) == clueRemarkDao.deleteByAids(ids) && clueDao.deletes(ids) == ids.length;
+    }
+
+    public Map<String, Object> getUserListAndClue(String id) {
+        //取uList
+        List<User> uList = userDao.getUserList();
+        //取a
+        Clue c = clueDao.getById(id);
+        //将uList和a打包到map中
+        Map<String, Object> map = new HashMap<String, Object>(16);
+        map.put("uList", uList);
+        map.put("c", c);
+        //返回map就可以了
+        return map;
     }
 }

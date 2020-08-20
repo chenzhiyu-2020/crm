@@ -163,27 +163,62 @@
                                 html += "<option value='" + n.id + "'>" + n.name + "</option>";
                             })
                             $("#edit-clueOwner").html(html);
-                            $("#edit-id").val(data.a.id);
-                            $("#edit-clueOwner").val(data.a.owner);
-                            $("#edit-company").val(data.a.company);
-                            $("#edit-call").val(data.a.call);
-                            $("#edit-surname").val(data.a.surname);
-                            $("#edit-job").val(data.a.job);
-                            $("#edit-email").val(data.a.email);
-                            $("#edit-phone").val(data.a.phone);
-                            $("#edit-website").val(data.a.website);
-                            $("#edit-mphone").val(data.a.mphone);
-                            $("#edit-status").val(data.a.status);
-                            $("#edit-source").val(data.a.source);
-                            $("#edit-describe").val(data.a.describe);
-                            $("#edit-contactSummary").val(data.a.contactSummary);
-                            $("#edit-nextContactTime").val(data.a.nextContactTime);
-                            $("#edit-address").val(data.a.address);
+                            $("#edit-id").val(data.c.id);
+                            $("#edit-clueOwner").val(data.c.owner);
+                            $("#edit-company").val(data.c.company);
+                            $("#edit-call").val(data.c.appellation);
+                            $("#edit-surname").val(data.c.fullname);
+                            $("#edit-job").val(data.c.job);
+                            $("#edit-email").val(data.c.email);
+                            $("#edit-phone").val(data.c.phone);
+                            $("#edit-website").val(data.c.website);
+                            $("#edit-mphone").val(data.c.mphone);
+                            $("#edit-status").val(data.c.state);
+                            $("#edit-source").val(data.c.source);
+                            $("#edit-describe").val(data.c.description);
+                            $("#edit-contactSummary").val(data.c.contactSummary);
+                            $("#edit-nextContactTime").val(data.c.nextContactTime);
+                            $("#edit-address").val(data.c.address);
                             //所有的值都填写好之后，打开修改操作的模态窗口
                             $("#editClueModal").modal("show");
                         }
                     })
                 }
+            })
+            //为更新按钮绑定事件，执行市场活动的修改操作
+            $("#updateBtn").click(function () {
+                $.ajax({
+                    url: "workbench/activity/update.do",
+                    data: {
+                        "id": $.trim($("#edit-id").val()),
+                        "clueOwner": $.trim($("#edit-clueOwner").val()),
+                        "company": $.trim($("#edit-company").val()),
+                        "call": $.trim($("#edit-call").val()),
+                        "surname": $.trim($("#edit-surname").val()),
+                        "job": $.trim($("#edit-job").val()),
+                        "email": $.trim($("#edit-email").val()),
+                        "phone": $.trim($("#edit-phone").val()),
+                        "website": $.trim($("#edit-website").val()),
+                        "mphone": $.trim($("#edit-mphone").val()),
+                        "status": $.trim($("#edit-status").val()),
+                        "source": $.trim($("#edit-source").val()),
+                        "describe": $.trim($("#edit-describe").val()),
+                        "contactSummary": $.trim($("#edit-contactSummary").val()),
+                        "nextContactTime": $.trim($("#edit-nextContactTime").val()),
+                        "address": $.trim($("#edit-address").val())
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            pageList($("#cluePage").bs_pagination('getOption', 'currentPage')
+                                , $("#cluePage").bs_pagination('getOption', 'rowsPerPage'));
+                            $("#editClueModal").modal("hide");
+                        } else {
+                            alert("修改市场活动失败");
+                        }
+                    }
+                })
             })
         });
 
@@ -408,7 +443,7 @@
                         <label for="edit-company" class="col-sm-2 control-label">公司<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="edit-company" value="">
+                            <input type="text" class="form-control" id="edit-company">
                         </div>
                     </div>
                     <div class="form-group">
@@ -424,34 +459,33 @@
                         <label for="edit-surname" class="col-sm-2 control-label">姓名<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="edit-surname" value="">
+                            <input type="text" class="form-control" id="edit-surname">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="edit-job" class="col-sm-2 control-label">职位</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="edit-job" value="">
+                            <input type="text" class="form-control" id="edit-job">
                         </div>
                         <label for="edit-email" class="col-sm-2 control-label">邮箱</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="edit-email" value="">
+                            <input type="text" class="form-control" id="edit-email">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="edit-phone" class="col-sm-2 control-label">公司座机</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="edit-phone" value="">
+                            <input type="text" class="form-control" id="edit-phone">
                         </div>
                         <label for="edit-website" class="col-sm-2 control-label">公司网站</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="edit-website"
-                                   value="">
+                            <input type="text" class="form-control" id="edit-website">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="edit-mphone" class="col-sm-2 control-label">手机</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="edit-mphone" value="">
+                            <input type="text" class="form-control" id="edit-mphone">
                         </div>
                         <label for="edit-status" class="col-sm-2 control-label">线索状态</label>
                         <div class="col-sm-10" style="width: 300px;">
@@ -491,7 +525,7 @@
                         <div class="form-group">
                             <label for="edit-nextContactTime" class="col-sm-2 control-label">下次联系时间</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="edit-nextContactTime" value="">
+                                <input type="text" class="form-control" id="edit-nextContactTime">
                             </div>
                         </div>
                     </div>
@@ -507,8 +541,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">更新</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="updateBtn">更新</button>
             </div>
         </div>
     </div>
@@ -587,8 +620,7 @@
                 <button type="button" class="btn btn-primary" id="addBtn"><span
                         class="glyphicon glyphicon-plus"></span> 创建
                 </button>
-                <button type="button" class="btn btn-default" id="editBtn" data-toggle="modal"
-                        data-target="#editClueModal"><span
+                <button type="button" class="btn btn-default" id="editBtn"><span
                         class="glyphicon glyphicon-pencil"></span> 修改
                 </button>
                 <button type="button" class="btn btn-danger" id="deleteBtn"><span
