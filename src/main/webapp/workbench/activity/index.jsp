@@ -41,7 +41,6 @@
                 $("#hidden-endDate").val($.trim($("#search-endDate").val()));
                 pageList(1, 10);
             })
-
             //为创建按钮绑定事件，打开添加操作的模态窗口
             $("#addBtn").click(function () {
                 //走后台，目的是为了取得用户信息列表，为所有者下拉框铺值
@@ -56,9 +55,7 @@
                             html += "<option value='" + n.id + "'>" + n.name + "</option>";
                         })
                         $("#create-owner").html(html);
-                        //将当前登录的用户，设置为下拉框默认的选项
-                        //取得当前登录用户的id
-                        //在js中使用el表达式，el表达式一定要套用在字符串中
+                        //将当前登录的用户，设置为下拉框默认的选项，取得当前登录用户的id，在js中使用el表达式，el表达式一定要套用在字符串中
                         var id = "${user.id}";
                         $("#create-owner").val(id);
                         //所有者下拉框处理完毕后，展现模态窗口
@@ -90,9 +87,7 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.success) {
-                            //添加成功后
-                            //刷新市场活动信息列表（局部刷新）
-                            //做完添加操作后，应该回到第一页，维持每页展现的记录数
+                            //添加成功后，刷新市场活动信息列表（局部刷新），做完添加操作后，应该回到第一页，维持每页展现的记录数
                             pageList(1, $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
                             //提交表单，进行重置，保证模态窗口里的表格数据全空
                             $("#activityAddForm")[0].reset();
@@ -104,7 +99,6 @@
                     }
                 })
             })
-
             //为修改按钮绑定事件，打开修改操作的模态窗口
             $("#editBtn").click(function () {
                 var $xz = $("input[name=xz]:checked");
@@ -112,7 +106,6 @@
                     alert("请选择需要修改的记录");
                 } else if ($xz.length > 1) {
                     alert("只能选择一条记录进行修改");
-                    //肯定只选了一条
                 } else {
                     var id = $xz.val();
                     $.ajax({
@@ -168,9 +161,7 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.success) {
-                            //修改成功后
-                            //刷新市场活动信息列表（局部刷新）
-                            //pageList(1,2);
+                            //修改成功后，刷新市场活动信息列表（局部刷新），pageList(1,2);
                             pageList($("#activityPage").bs_pagination('getOption', 'currentPage')
                                 , $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
                             //关闭修改操作的模态窗口
@@ -181,7 +172,6 @@
                     }
                 })
             })
-
             //为全选的复选框绑定事件，触发全选操作
             $("#qx").click(function () {
                 $("input[name=xz]").prop("checked", this.checked);
@@ -190,7 +180,6 @@
             $("#activityBody").on("click", $("input[name=xz]"), function () {
                 $("#qx").prop("checked", $("input[name=xz]").length === $("input[name=xz]:checked").length);
             })
-
             //为删除按钮绑定事件，执行市场活动删除操作
             $("#deleteBtn").click(function () {
                 //找到复选框中所有挑√的复选框的jquery对象
@@ -229,7 +218,6 @@
                     }
                 }
             })
-
         });
 
         //失焦验证模态窗口名称不能为空

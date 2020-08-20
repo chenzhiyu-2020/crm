@@ -51,7 +51,6 @@
             $("#remarkBody").on("mouseout", ".remarkDiv", function () {
                 $(this).children("div").children("div").hide();
             })
-
             //为保存按钮绑定事件，执行备注添加操作
             $("#saveRemarkBtn").click(function () {
                 $.ajax({
@@ -64,8 +63,7 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.success) {
-                            //添加成功
-                            //textarea文本域中的信息清空掉
+                            //添加成功，textarea文本域中的信息清空掉
                             $("#remark").val("");
                             //在textarea文本域上方新增一个div
                             var html = "";
@@ -88,7 +86,6 @@
                     }
                 })
             })
-
             //为更新按钮绑定事件
             $("#updateRemarkBtn").click(function () {
                 var id = $("#remarkId").val();
@@ -102,8 +99,7 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.success) {
-                            //修改备注成功
-                            //更新div中相应的信息，需要更新的内容有 noteContent，editTime，editBy
+                            //修改备注成功，更新div中相应的信息，需要更新的内容有 noteContent，editTime，editBy
                             $("#e" + id).html(data.ar.noteContent);
                             $("#s" + id).html(data.ar.editTime + " 由" + data.ar.editBy);
                             //更新内容之后，关闭模态窗口
@@ -114,7 +110,6 @@
                     }
                 })
             })
-
         });
 
         function showRemarkList() {

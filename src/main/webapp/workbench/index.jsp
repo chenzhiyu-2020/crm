@@ -33,7 +33,6 @@
             });
             //在页面加载完毕后，在工作区打开相应的页面
             window.open("workbench/main/index.jsp", "workareaFrame");
-
             //修改密码
             $("#updateBtn").click(function () {
                 $.ajax({
@@ -44,10 +43,14 @@
                     },
                     type: "post",
                     dataType: "json",
-                    success: function () {
-                        $("#editPwdModal").modal("hide");
-                        alert("修改密码成功");
-                        window.open("login.jsp");
+                    success: function (data) {
+                        if (data.success) {
+                            $("#editPwdModal").modal("hide");
+                            alert("修改密码成功");
+                            window.open("login.jsp");
+                        }else {
+                            alert("修改密码失败");
+                        }
                     }
                 })
             })

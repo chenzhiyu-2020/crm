@@ -23,22 +23,21 @@ public class UserController extends HttpServlet {
         String path = request.getServletPath();
         if ("/settings/user/login.do".equals(path)) {
             login(request, response);
-        }else if("/settings/user/updatePwd.do".equals(path)) {
+        } else if ("/settings/user/updatePwd.do".equals(path)) {
             updatePwd(request, response);
         }
     }
 
     private void updatePwd(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到修改密码控制器");
         String id = request.getParameter("id");
-        System.out.println("-------------------------------------------"+id);
         String loginPwd = MD5Util.getMD5(request.getParameter("loginPwd"));
-        System.out.println("-------------------------------------------"+loginPwd);
         UserService us = (UserService) ServiceFactory.getService(new UserServiceImpl());
         Map<String, String> map = new HashMap<String, String>(16);
         map.put("id", id);
         map.put("loginPwd", loginPwd);
         boolean flag = us.updatePwd(map);
-        PrintJson.printJsonFlag(response,flag);
+        PrintJson.printJsonFlag(response, flag);
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) {
