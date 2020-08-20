@@ -98,7 +98,16 @@
     </select>
     <select id="getActivityListByCondition" resultType="Activity">
         select
-        a.*,
+        a.id,
+        a.name,
+        a.startDate,
+        a.endDate,
+        a.cost,
+        a.description,
+        a.createTime,
+        a.createBy,
+        a.editTime,
+        a.editBy,
         u.name as owner
         from tbl_activity a
         join tbl_user u
