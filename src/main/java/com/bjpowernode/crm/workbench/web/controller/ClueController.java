@@ -53,7 +53,17 @@ public class ClueController extends HttpServlet {
             convert(request, response);
         }else if ("/workbench/clue/pageList.do".equals(path)) {
             pageList(request, response);
+        }else if ("/workbench/clue/delete.do".equals(path)) {
+            delete(request, response);
         }
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行线索的删除操作");
+        String[] ids = request.getParameterValues("id");
+        ClueService cs = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        boolean flag = cs.delete(ids);
+        PrintJson.printJsonFlag(response, flag);
     }
 
     private void pageList(HttpServletRequest request, HttpServletResponse response) {

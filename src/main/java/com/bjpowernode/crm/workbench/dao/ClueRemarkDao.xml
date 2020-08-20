@@ -8,6 +8,22 @@
         from tbl_clue_remark
         where id = #{id}
     </delete>
+    <delete id="deleteByAids">
+        delete
+        from tbl_clue_remark
+        where clueId in
+        <foreach collection="array" item="aid" open="(" close=")" separator=",">
+            #{aid}
+        </foreach>
+    </delete>
+    <select id="getCountByAids" resultType="java.lang.Integer">
+        select count(*)
+        from tbl_clue_remark
+        where clueId in
+        <foreach collection="array" item="aid" open="(" close=")" separator=",">
+            #{aid}
+        </foreach>
+    </select>
     <select id="getListByClueId" resultType="ClueRemark">
         select *
         from tbl_clue_remark

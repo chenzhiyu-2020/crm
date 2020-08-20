@@ -186,8 +186,7 @@
             $("#qx").click(function () {
                 $("input[name=xz]").prop("checked", this.checked);
             })
-            //以下这种做法是不行的
-            //因为动态生成的元素，是不能够以普通绑定事件的形式来进行操作的
+            //以下这种做法是不行的，因为动态生成的元素，是不能够以普通绑定事件的形式来进行操作的
             $("#activityBody").on("click", $("input[name=xz]"), function () {
                 $("#qx").prop("checked", $("input[name=xz]").length === $("input[name=xz]:checked").length);
             })
@@ -218,10 +217,6 @@
                             type: "post",
                             dataType: "json",
                             success: function (data) {
-                                /*
-                                    data
-                                        {"success":true/false}
-                                 */
                                 if (data.success) {
                                     //删除成功后
                                     //回到第一页，维持每页展现的记录数

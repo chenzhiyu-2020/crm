@@ -52,7 +52,7 @@ public class ClueServiceImpl implements ClueService {
             car.setClueId(cid);
             //添加关联关系表中的记录
             int count = clueActivityRelationDao.bund(car);
-            if (count != 1) {
+            if (clueActivityRelationDao.bund(car) != 1) {
                 flag = false;
             }
         }
@@ -234,5 +234,9 @@ public class ClueServiceImpl implements ClueService {
         vo.setDataList(dataList);
         //将vo返回
         return vo;
+    }
+
+    public boolean delete(String[] ids) {
+        return clueRemarkDao.getCountByAids(ids) == clueRemarkDao.deleteByAids(ids) && clueDao.deletes(ids) == ids.length;
     }
 }

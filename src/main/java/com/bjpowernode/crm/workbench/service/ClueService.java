@@ -23,4 +23,6 @@ public interface ClueService {
     boolean convert(String clueId, Tran t, String createBy);
 
     PaginationVO<Clue> pageList(Map<String, Object> map);
+
+    boolean delete(String[] ids);
 }
