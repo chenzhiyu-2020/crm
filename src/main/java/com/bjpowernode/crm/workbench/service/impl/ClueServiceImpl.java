@@ -35,7 +35,7 @@ public class ClueServiceImpl implements ClueService {
     private final TranHistoryDao tranHistoryDao = SqlSessionUtil.getSqlSession().getMapper(TranHistoryDao.class);
 
     public boolean save(Clue c) {
-        return clueDao.save(c)==1;
+        return clueDao.save(c) == 1;
     }
 
     public Clue detail(String id) {
@@ -43,7 +43,7 @@ public class ClueServiceImpl implements ClueService {
     }
 
     public boolean unbund(String id) {
-        return clueActivityRelationDao.unbund(id)==1;
+        return clueActivityRelationDao.unbund(id) == 1;
     }
 
     public boolean bund(String cid, String[] aids) {
@@ -255,5 +255,9 @@ public class ClueServiceImpl implements ClueService {
         map.put("c", c);
         //返回map就可以了
         return map;
+    }
+
+    public boolean update(Clue c) {
+        return clueDao.update(c) == 1;
     }
 }

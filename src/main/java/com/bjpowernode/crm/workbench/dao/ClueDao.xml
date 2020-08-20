@@ -3,6 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bjpowernode.crm.workbench.dao.ClueDao">
+    <update id="update">
+        update tbl_clue
+        set fullname = #{fullname},
+            appellation = #{appellation},
+            owner = #{owner},
+            company = #{company},
+            job = #{job},
+            email = #{email},
+            phone = #{phone},
+            website = #{website},
+            mphone = #{mphone},
+            state = #{state},
+            source = #{source},
+            editBy = #{editBy},
+            editTime = #{editTime},
+            description = #{description},
+            contactSummary = #{contactSummary},
+            nextContactTime = #{nextContactTime},
+            address = #{address}
+        where id = #{id}
+    </update>
     <delete id="delete">
         delete
         from tbl_clue

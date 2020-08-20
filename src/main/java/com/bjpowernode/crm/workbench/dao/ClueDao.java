@@ -1,6 +1,7 @@
 package com.bjpowernode.crm.workbench.dao;
 
 import com.bjpowernode.crm.workbench.domain.Clue;
+import com.bjpowernode.crm.workbench.service.ClueService;
 
 import java.util.List;
 import java.util.Map;
@@ -22,4 +23,6 @@ public interface ClueDao {
     List<Clue> getClueListByCondition(Map<String, Object> map);
 
     int deletes(String[] ids);
+
+    int update(Clue c);
 }

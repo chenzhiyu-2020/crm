@@ -188,21 +188,21 @@
             //为更新按钮绑定事件，执行市场活动的修改操作
             $("#updateBtn").click(function () {
                 $.ajax({
-                    url: "workbench/activity/update.do",
+                    url: "workbench/clue/update.do",
                     data: {
                         "id": $.trim($("#edit-id").val()),
-                        "clueOwner": $.trim($("#edit-clueOwner").val()),
+                        "owner": $.trim($("#edit-clueOwner").val()),
                         "company": $.trim($("#edit-company").val()),
-                        "call": $.trim($("#edit-call").val()),
-                        "surname": $.trim($("#edit-surname").val()),
+                        "appellation": $.trim($("#edit-call").val()),
+                        "fullname": $.trim($("#edit-surname").val()),
                         "job": $.trim($("#edit-job").val()),
                         "email": $.trim($("#edit-email").val()),
                         "phone": $.trim($("#edit-phone").val()),
                         "website": $.trim($("#edit-website").val()),
                         "mphone": $.trim($("#edit-mphone").val()),
-                        "status": $.trim($("#edit-status").val()),
+                        "state": $.trim($("#edit-status").val()),
                         "source": $.trim($("#edit-source").val()),
-                        "describe": $.trim($("#edit-describe").val()),
+                        "description": $.trim($("#edit-describe").val()),
                         "contactSummary": $.trim($("#edit-contactSummary").val()),
                         "nextContactTime": $.trim($("#edit-nextContactTime").val()),
                         "address": $.trim($("#edit-address").val())
@@ -433,6 +433,7 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
+                    <input type="hidden" id="edit-id"/>
                     <div class="form-group">
                         <label for="edit-clueOwner" class="col-sm-2 control-label">所有者<span
                                 style="font-size: 15px; color: red;">*</span></label>

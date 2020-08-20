@@ -27,4 +27,6 @@ public interface ClueService {
     boolean delete(String[] ids);
 
     Map<String, Object> getUserListAndClue(String id);
+
+    boolean update(Clue c);
 }
