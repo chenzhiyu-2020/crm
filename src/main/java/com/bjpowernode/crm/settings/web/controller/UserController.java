@@ -23,7 +23,22 @@ public class UserController extends HttpServlet {
         String path = request.getServletPath();
         if ("/settings/user/login.do".equals(path)) {
             login(request, response);
+        }else if("/settings/user/updatePwd.do".equals(path)) {
+            updatePwd(request, response);
         }
+    }
+
+    private void updatePwd(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        System.out.println("-------------------------------------------"+id);
+        String loginPwd = MD5Util.getMD5(request.getParameter("loginPwd"));
+        System.out.println("-------------------------------------------"+loginPwd);
+        UserService us = (UserService) ServiceFactory.getService(new UserServiceImpl());
+        Map<String, String> map = new HashMap<String, String>(16);
+        map.put("id", id);
+        map.put("loginPwd", loginPwd);
+        boolean flag = us.updatePwd(map);
+        PrintJson.printJsonFlag(response,flag);
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) {
@@ -42,28 +57,12 @@ public class UserController extends HttpServlet {
             request.getSession().setAttribute("user", user);
             //如果程序执行到此处，说明业务层没有为controller抛出任何的异常
             //表示登录成功
-            /*
-                {"success":true}
-             */
             PrintJson.printJsonFlag(response, true);
         } catch (Exception e) {
             e.printStackTrace();
             //一旦程序执行了catch块的信息，说明业务层为我们验证登录失败，为controller抛出了异常
             //表示登录失败
-            /*
-                {"success":true,"msg":?}
-             */
             String msg = e.getMessage();
-            /*
-                我们现在作为controller，需要为ajax请求提供多项信息
-                可以有两种手段来处理：
-                    （1）将多项信息打包成为map，将map解析为json串
-                    （2）创建一个Vo
-                            private boolean success;
-                            private String msg;
-                    如果对于展现的信息将来还会大量的使用，我们创建一个vo类，使用方便
-                    如果对于展现的信息只有在这个需求中能够使用，我们使用map就可以了
-             */
             Map<String, Object> map = new HashMap<String, Object>(16);
             map.put("success", false);
             map.put("msg", msg);

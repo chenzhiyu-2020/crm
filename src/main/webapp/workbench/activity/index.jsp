@@ -326,8 +326,8 @@
                         <label for="edit-marketActivityName" class="col-sm-2 control-label">名称<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="edit-name"><span style="color:red"
-                                                                                         class="name-span"></span>
+                            <input type="text" class="form-control" id="edit-name">
+                            <span style="color:red" class="name-span"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -349,7 +349,7 @@
                     <div class="form-group">
                         <label for="edit-describe" class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10" style="width: 81%;">
-                            <textarea class="form-control" rows="3" id="edit-description">123</textarea>
+                            <textarea class="form-control" rows="3" id="edit-description"></textarea>
                         </div>
                     </div>
                 </form>
@@ -382,8 +382,8 @@
                         <label for="create-marketActivityName" class="col-sm-2 control-label">名称<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="create-name"><span style="color:red"
-                                                                                           class="name-span"></span>
+                            <input type="text" class="form-control" id="create-name">
+                            <span style="color:red" class="name-span"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -442,13 +442,13 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">开始日期</div>
-                        <input class="form-control time" type="text" id="search-startDate" readonly>
+                        <input class="form-control time" type="text" id="search-startDate">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">结束日期</div>
-                        <input class="form-control time" type="text" id="search-endDate" readonly>
+                        <input class="form-control time" type="text" id="search-endDate">
                     </div>
                 </div>
                 <button type="button" id="searchBtn" class="btn btn-default">查询</button>
@@ -458,8 +458,8 @@
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <button type="button" class="btn btn-primary" id="addBtn"><span class="glyphicon glyphicon-plus"></span>
-                    创建
+                <button type="button" class="btn btn-primary" id="addBtn"><span
+                        class="glyphicon glyphicon-plus"></span> 创建
                 </button>
                 <button type="button" class="btn btn-default" id="editBtn"><span
                         class="glyphicon glyphicon-pencil"></span> 修改

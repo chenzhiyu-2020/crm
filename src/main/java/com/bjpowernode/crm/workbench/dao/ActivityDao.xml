@@ -45,6 +45,7 @@
                a.createTime,
                a.createBy,
                a.editBy,
+               a.editTime,
                u.name as owner
         from tbl_activity a
                  join tbl_user u

@@ -50,4 +50,8 @@ public class UserServiceImpl implements UserService {
         List<User> uList = userDao.getUserList();
         return uList;
     }
+
+    public boolean updatePwd(Map<String, String> map) {
+        return userDao.updatePwd(map) == 1;
+    }
 }

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+    <title></title>
     <base href="<%=basePath%>">
     <meta charset="UTF-8">
     <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
@@ -32,7 +32,25 @@
                 $(this).children("a").css("color", "white");
             });
             //在页面加载完毕后，在工作区打开相应的页面
-            window.open("workbench/main/index.html", "workareaFrame");
+            window.open("workbench/main/index.jsp", "workareaFrame");
+
+            //修改密码
+            $("#updateBtn").click(function () {
+                $.ajax({
+                    url: "settings/user/updatePwd.do",
+                    data: {
+                        "id": '${user.id}',
+                        "loginPwd": $.trim($("#newPwd").val())
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function () {
+                        $("#editPwdModal").modal("hide");
+                        alert("修改密码成功");
+                        window.open("login.jsp");
+                    }
+                })
+            })
         });
     </script>
 </head>
@@ -49,12 +67,12 @@
             </div>
             <div class="modal-body">
                 <div style="position: relative; left: 40px;">
-                    姓名：<b>张三</b><br><br>
-                    登录帐号：<b>zhangsan</b><br><br>
-                    组织机构：<b>1005，市场部，二级部门</b><br><br>
-                    邮箱：<b>zhangsan@bjpowernode.com</b><br><br>
-                    失效时间：<b>2017-02-14 10:10:10</b><br><br>
-                    允许访问IP：<b>127.0.0.1,192.168.100.2</b>
+                    姓名：<b>${user.name}</b><br><br>
+                    登录帐号：<b>${user.loginAct}</b><br><br>
+                    组织机构：<b>${user.deptNo}</b><br><br>
+                    邮箱：<b>${user.email}</b><br><br>
+                    失效时间：<b>${user.expireTime}</b><br><br>
+                    允许访问IP：<b>${user.allowIps}</b>
                 </div>
             </div>
             <div class="modal-footer">
@@ -75,30 +93,17 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label for="oldPwd" class="col-sm-2 control-label">原密码</label>
-                        <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="oldPwd" style="width: 200%;">
-                        </div>
-                    </div>
+                    <input type="hidden" id="edit-id"/>
                     <div class="form-group">
                         <label for="newPwd" class="col-sm-2 control-label">新密码</label>
                         <div class="col-sm-10" style="width: 300px;">
                             <input type="text" class="form-control" id="newPwd" style="width: 200%;">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="confirmPwd" class="col-sm-2 control-label">确认密码</label>
-                        <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="confirmPwd" style="width: 200%;">
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="window.location.href='login.jsp';">更新
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="updateBtn">更新
                 </button>
             </div>
         </div>
@@ -118,7 +123,6 @@
                 <p>您确定要退出系统吗？</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
                         onclick="window.location.href='login.jsp';">确定
                 </button>
@@ -156,7 +160,7 @@
     <!-- 导航 -->
     <div id="navigation" style="left: 0; width: 18%; position: relative; height: 100%; overflow:auto;">
         <ul id="no1" class="nav nav-pills nav-stacked">
-            <li class="liClass"><a href="main/index.html" target="workareaFrame"><span
+            <li class="liClass"><a href="workbench/main/index.jsp" target="workareaFrame"><span
                     class="glyphicon glyphicon-home"></span> 工作台</a></li>
             <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span
                     class="glyphicon glyphicon-tag"></span> 动态</a></li>
@@ -174,18 +178,18 @@
                     class="glyphicon glyphicon-earphone"></span> 联系人</a></li>
             <li class="liClass"><a href="workbench/transaction/index.jsp" target="workareaFrame"><span
                     class="glyphicon glyphicon-usd"></span> 交易（商机）</a></li>
-            <li class="liClass"><a href="visit/index.html" target="workareaFrame"><span
+            <li class="liClass"><a href="workbench/visit/index.html" target="workareaFrame"><span
                     class="glyphicon glyphicon-phone-alt"></span> 售后回访</a></li>
             <li class="liClass">
                 <a href="#no2" class="collapsed" data-toggle="collapse"><span class="glyphicon glyphicon-stats"></span>
                     统计图表</a>
                 <ul id="no2" class="nav nav-pills nav-stacked collapse">
-                    <li class="liClass"><a href="chart/activity/index.html"
+                    <li class="liClass"><a href="workbench/chart/activity/index.html"
                                            target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span> 市场活动统计图表</a></li>
-                    <li class="liClass"><a href="chart/clue/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
+                    <li class="liClass"><a href="workbench/chart/clue/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span> 线索统计图表</a></li>
-                    <li class="liClass"><a href="chart/customerAndContacts/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
+                    <li class="liClass"><a href="workbench/chart/customerAndContacts/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span> 客户和联系人统计图表</a></li>
                     <li class="liClass"><a href="workbench/chart/transaction/index.jsp" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span> 交易统计图表</a></li>

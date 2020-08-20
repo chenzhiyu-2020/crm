@@ -22,7 +22,6 @@
     <script type="text/javascript" src="jquery/bs_pagination/en.js"></script>
     <script type="text/javascript">
         $(function () {
-
             $(".time").datetimepicker({
                 minView: "month",
                 language: 'zh-CN',
@@ -31,7 +30,6 @@
                 todayBtn: true,
                 pickerPosition: "top-left"
             });
-
             //页面加载完毕后触发一个方法，默认展开列表的第一页，每页展现十条记录
             pageList(1, 10);
             //为查询按钮绑定事件，触发pageList方法
@@ -46,7 +44,6 @@
                 $("#hidden-state").val($.trim($("#search-state").val()));
                 pageList(1, 10);
             })
-
             // 为创建按钮绑定事件，打开添加操作的模态窗口
             $("#addBtn").click(function () {
                 $.ajax({
@@ -91,8 +88,7 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.success) {
-                            //刷新列表 略
-                            //关闭模态窗口
+                            //刷新列表,关闭模态窗口
                             pageList(1, $("#cluePage").bs_pagination('getOption', 'rowsPerPage'));
                             $("#clueAddForm")[0].reset();
                             $("#createClueModal").modal("hide");
@@ -102,7 +98,6 @@
                     }
                 })
             })
-
             //复选框设置
             $("#qx").click(function () {
                 $("input[name=xz]").prop("checked", this.checked);
@@ -110,7 +105,6 @@
             $("#activityBody").on("click", $("input[name=xz]"), function () {
                 $("#qx").prop("checked", $("input[name=xz]").length === $("input[name=xz]:checked").length);
             })
-
             //为删除按钮绑定事件，执行市场活动删除操作
             $("#deleteBtn").click(function () {
                 //找到复选框中所有挑√的复选框的jquery对象
@@ -146,7 +140,6 @@
                     }
                 }
             })
-
             //为修改按钮绑定事件，打开修改操作的模态窗口
             $("#editBtn").click(function () {
                 var $xz = $("input[name=xz]:checked");
@@ -192,7 +185,6 @@
                     })
                 }
             })
-
         });
 
         function pageList(pageNo, pageSize) {

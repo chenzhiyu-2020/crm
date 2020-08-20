@@ -219,9 +219,6 @@
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="edit-clueOwner">
-                                <option>zhangsan</option>
-                                <option>lisi</option>
-                                <option>wangwu</option>
                             </select>
                         </div>
                         <label for="edit-company" class="col-sm-2 control-label">公司<span
